@@ -15,10 +15,26 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->bigInteger('userable_id')->nullable();
+            $table->string('userable_type')->nullable();
+            $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phoneno');
+            $table->string('payment_number')->nullable();
+            $table->string('terms_and_conditions')->default(true);
+            $table->unsignedBigInteger('userpin')->nullable()->default(null);
+            $table->boolean('is_owner')->default(true);
+            $table->boolean('is_employee')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->integer('role')->default(1);
+            $table->boolean('is_suspended')->default(false);
+            $table->string('api_token');
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('month');
+            $table->integer('year');
             $table->rememberToken();
             $table->timestamps();
         });

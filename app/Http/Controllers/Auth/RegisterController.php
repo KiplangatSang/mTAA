@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\CountriesList;
+use App\Models\CountriesList;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -68,7 +68,8 @@ class RegisterController extends BaseController
     {
 
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phoneno' => 'required',
@@ -84,18 +85,21 @@ class RegisterController extends BaseController
      */
     protected function create(array $data)
     {
+        $phonecode = CountriesList::where('name', $data['country'])->first()->phonecode;
         $region = $this->getLocationDetails();
         $user = User::firstOrCreate(
             [
-                'username' => $data['username'],
+                'username' => $data['firstname'] . " " . $data['lastname'],
                 'email' => $data['email'],
             ],
             [
                 'role' => $data['role'] ?? 1,
-                'phoneno' => $region['phoneCode'] . $data['phoneno'],
+                'phoneno' => $phonecode . $data['phoneno'],
                 'password' => Hash::make($data['password']),
                 'terms_and_conditions' => $data['terms_and_conditions'],
                 'api_token' => Str::random(60),
+                'country' => $data['country'],
+                'city' => $data['city'],
                 'month' => date('M'),
                 'year' => date('Y'),
             ]
@@ -104,8 +108,7 @@ class RegisterController extends BaseController
         if (!$user)
             return false;
 
-            $apprepo = new AppRepository();
-            $noprofile = $apprepo->getBaseImages()['noprofile'];
+        $noprofile = $this->getBaseImages()['noprofile'];
         $user = User::whereIn('email', $user)->first();
         $user->profiles()->create([
             "user_id" => $user->id,
@@ -118,7 +121,8 @@ class RegisterController extends BaseController
     public function apiRegister(Request $request)
     {
         $input = $request->only(
-            'username',
+            'firstname',
+            'lastname',
             'email',
             'password',
             'phoneno',
@@ -129,7 +133,8 @@ class RegisterController extends BaseController
         );
 
         $validator = Validator::make($request->all(), [
-            'username' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8',],
             'c_password' => ['required|same:password', 'string', 'min:8',],
@@ -149,20 +154,17 @@ class RegisterController extends BaseController
 
         $user = User::firstOrCreate(
             [
-                'username' => $request['username'],
+                'username' => $request['firstname'] . " " . $request['lastname'],
                 'email' => $request['email'],
                 'phoneno' => $request['phoneno'],
             ],
             $request->except(['username', 'email', 'phoneno']),
         );
-
-        // $input = $request->all();
-        // // $input['password'] = bcrypt($input['password']);
-        // // // $user = User::create($input);
-        // // //$success['token'] =  $user->createToken('MyApp')->accessToken;
+        $images = $this->getBaseImages();
         $user =  User::where('email', $user->email)->first();
         $user->profiles()->create([
             "user_id" => $user->id,
+            "profile_image" => $images['noprofile'],
         ]);
         $success['user'] = $user;
         return $this->sendResponse($success, 'User registered successfully.');
