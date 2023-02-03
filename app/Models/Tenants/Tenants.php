@@ -13,6 +13,7 @@ class Tenants extends Model
 {
     use HasFactory;
 
+    protected $guarded =[];
     public function tenantable()
     {
         # code...

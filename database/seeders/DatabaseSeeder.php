@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
     {
 
         if (env('APP_DEBUG')) {
-             User::factory(1)->create();
+            User::factory(1)->create();
             $this->call([
                 // AccountSeeder::class,
                 // SubscriptionSeeder::class,
+                HousesSeeder::class,
                 CountriesListSeeder::class,
                 KenyaCountiesSeeder::class,
 

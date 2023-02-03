@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\CountriesList;
+use App\Models\CountriesList;
 use App\Employees\Employees;
 use App\Helpers\Billing\PaymentGatewayContract;
 use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Landlord\PlotSessionController;
 use App\Http\Controllers\Retailer\Transactions\TransactionController;
 use App\Models\User;
 use App\Repositories\AppRepository;
@@ -27,6 +28,12 @@ class BaseController extends Controller
 
     //gets retails list sent to home controller for choosing
 
+    public function housePagination()
+    {
+        # code...
+        $housePagination = 20;
+        return $housePagination;
+    }
 
     public function formatPhoneNumber($code, $phone_number)
     {
@@ -45,7 +52,6 @@ class BaseController extends Controller
     public function user()
     {
         $user = User::where('id', auth()->id())
-            ->with('accounts')
             ->first();
         return $user;
     }
@@ -111,26 +117,19 @@ class BaseController extends Controller
     }
 
 
-    // public function getRetail()
-    // {
-    //     $user = User::where('id', Auth::id())
-    //         ->with('accounts')
-    //         ->first();
-    //     //dd($user);
-    //     $retail = $user->sessionRetail()->first();
+    public function plotsession()
+    {
+        $sessioncontroller = new PlotSessionController();
+        $plot =  $sessioncontroller->show();
 
-    //     if (!$retail)
-    //         return false;
+        if (!$plot)
+            return false;
+
+        return $plot;
+    }
 
 
-    //     $retailId  = $retail->retail_id;
-    //     $retail = Retail::where('id', $retailId)->first();
 
-    //     if (!$retail)
-    //         return false;
-    //     $retail['complete'] = $this->calculate_profile($retail);
-    //     return $retail;
-    // }
 
     public function sendResponse($result, $message)
     {
@@ -192,14 +191,15 @@ class BaseController extends Controller
 
         $fileNameToStore = "";
 
-        if (!$this->getRetail()) {
+        $plotsession = $this->plotsession();
+
+        if (!$plotsession) {
             $firebase = new FirebaseRepository();
             $fileNameToStore =  $firebase->store($user, $folder, $file);
         } else {
-            $firebase = new FirebaseRepository($this->getRetail());
+            $firebase = new FirebaseRepository($plotsession);
             $fileNameToStore =  $firebase->store($user, $folder, $file);
         }
-
         info($fileNameToStore);
         return $fileNameToStore;
     }
@@ -216,33 +216,35 @@ class BaseController extends Controller
         return $location;
     }
 
-    // public function getLocationDetails()
-    // {
-    //     # code...
-    //     $region = $this->location();
-    //     if (!$region)
-    //         $region = array(
-    //             "ip" => "unknown",
-    //             "countryName" => "Kenya",
-    //             "countryCode" => "KE",
-    //             "regionCode" => "30",
-    //             "regionName" => "Nairobi Province",
-    //             "cityName" => "Nairobi",
-    //             "zipCode" => null,
-    //             "isoCode" => null,
-    //             "postalCode" => null,
-    //             "latitude" => "-1.2841",
-    //             "longitude" => "36.8155",
-    //             "metroCode" => null,
-    //             "areaCode" => "",
-    //             "timezone" => "Africa/Nairobi",
-    //             "driver" => "Stevebauman\Location\Drivers\GeoPlugin",
-    //         );
-    //     $phoneCode = CountriesList::where('iso', $region['countryCode'])->first()->phonecode;
-    //     $region['phoneCode'] = $phoneCode;
-    //     $region['countries'] =CountriesList::all();
-    //     return $region;
-    // }
+    public function getLocationDetails()
+    {
+        # code...
+        $region = $this->location();
+        // dd($region);
+        if (count($region) < 2)
+            $region = array(
+                "ip" => "unknown",
+                "countryName" => "Kenya",
+                "countryCode" => "KE",
+                "regionCode" => "30",
+                "regionName" => "Nairobi Province",
+                "cityName" => "Nairobi",
+                "zipCode" => null,
+                "isoCode" => null,
+                "postalCode" => null,
+                "latitude" => "-1.2841",
+                "longitude" => "36.8155",
+                "metroCode" => null,
+                "areaCode" => "",
+                "timezone" => "Africa/Nairobi",
+                "driver" => "Stevebauman\Location\Drivers\GeoPlugin",
+            );
+
+        $phoneCode = CountriesList::where('iso', $region['countryCode'])->first()->phonecode;
+        $region['phoneCode'] = $phoneCode;
+        $region['countries'] = CountriesList::all();
+        return $region;
+    }
 
     // public function getTransactionType($gateway)
     // {

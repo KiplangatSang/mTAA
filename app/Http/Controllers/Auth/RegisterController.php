@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Profiles\profiles;
 use App\Providers\RouteServiceProvider;
 use App\Repositories\AppRepository;
+use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -52,9 +53,14 @@ class RegisterController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
         $region = $this->getLocationDetails();
+        $region["role"] = 1;
+        if ($request) {
+            $region["role"] = $request->role;
+        }
+
         return view('auth.register', compact('region'));
     }
 
@@ -66,7 +72,6 @@ class RegisterController extends BaseController
      */
     protected function validator(array $data)
     {
-
         return Validator::make($data, [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
@@ -74,6 +79,7 @@ class RegisterController extends BaseController
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phoneno' => 'required',
             'terms_and_conditions' => 'required',
+            'role' => 'required',
         ]);
     }
 
@@ -83,6 +89,8 @@ class RegisterController extends BaseController
      * @param  array  $data
      * @return \App\User
      */
+
+    //web registrations
     protected function create(array $data)
     {
         $phonecode = CountriesList::where('name', $data['country'])->first()->phonecode;
@@ -93,7 +101,7 @@ class RegisterController extends BaseController
                 'email' => $data['email'],
             ],
             [
-                'role' => $data['role'] ?? 1,
+                'role' => $data['role'],
                 'phoneno' => $phonecode . $data['phoneno'],
                 'password' => Hash::make($data['password']),
                 'terms_and_conditions' => $data['terms_and_conditions'],
@@ -106,18 +114,20 @@ class RegisterController extends BaseController
         );
 
         if (!$user)
-            return false;
+            return back()->with('error', "Registration Failed!!");
 
-        $noprofile = $this->getBaseImages()['noprofile'];
         $user = User::whereIn('email', $user)->first();
-        $user->profiles()->create([
-            "user_id" => $user->id,
-            "profile_image" => $noprofile,
-        ]);
+        try {
+            $result = $this->createUserAccounts($user);
+        } catch (Exception $e) {
+            info($e->getMessage());
+            return back()->with('error', "Failed to create associated accounts");
+        }
 
         return $user;
     }
 
+    //api registrations
     public function apiRegister(Request $request)
     {
         $input = $request->only(
@@ -160,29 +170,73 @@ class RegisterController extends BaseController
             ],
             $request->except(['username', 'email', 'phoneno']),
         );
-        $images = $this->getBaseImages();
         $user =  User::where('email', $user->email)->first();
-        $user->profiles()->create([
-            "user_id" => $user->id,
-            "profile_image" => $images['noprofile'],
-        ]);
+        try {
+            $result = $this->createUserAccounts($user);
+        } catch (Exception $e) {
+            info($e->getMessage());
+            return $this->sendError($e, 'Failed to create associated accounts!');
+        }
+
         $success['user'] = $user;
         return $this->sendResponse($success, 'User registered successfully.');
     }
 
-    public function accountDescription()
+    /**"0" => "Admin",
+            "1" => "Tenant",
+            "2" => "Landlord"
+             "3" => "caretaker"
+     */
+
+    public function createUserAccounts(User $user)
     {
         # code...
-        $account = array(
-            "0" => "Admin",
-            "1" => "Retailer",
-            "2" => "Supplier",
-        );
+        try {
+            $this->createProfile($user);
+            if ($user->role == 0) {
+            } else if ($user->role == 1) {
+                $this->tenantCreation($user);
+            } else if ($user->role == 2) {
+                $this->landlordCreation($user);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    public function supplierCreate()
+    public function createProfile(User $user)
+    {
+        $images = $this->getBaseImages();
+        # code...
+        $result = $user->profile()->create([
+            "user_id" => $user->id,
+            "profile_image" => $images['noprofile'],
+        ]);
+
+        return  $result;
+    }
+
+    public function tenantCreation(User $user)
     {
         # code...
-        return view('auth.supplierregister');
+        $result =  $user->tenant()->create(
+            [
+                'user_id' => $user->id,
+            ]
+        );
+        return $result;
+    }
+
+    public function landlordCreation(User $user)
+    {
+        # code...
+        $result =  $user->landlord()->create(
+            [
+                "contact_phone_number_1" => $user->phoneno,
+            ]
+        );
+        return $result;
     }
 }

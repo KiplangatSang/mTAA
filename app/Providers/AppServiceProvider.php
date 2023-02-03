@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use Facade\FlareClient\View;
+use App\Http\Composers\AppComposer;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\STR;
+use App\Http\Composers\LandlordComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,8 +39,9 @@ class AppServiceProvider extends ServiceProvider
         });
         Schema::defaultStringLength(191);
 
-        // View::composer(['home', 'client.*'], AppComposer::class);
-        // View::composer(['admin.*',], AdminAppComposer::class);
+
+        View::composer(['*',], AppComposer::class);
+        View::composer(['landlord.*',], LandlordComposer::class);
         // View::composer(['supplier.*',], AdminAppComposer::class);
     }
 }

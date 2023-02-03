@@ -44,7 +44,7 @@ class LandLords extends Model
     public function plotlocations()
     {
         # code...
-       return $this->hasMany(PlotLocation::class,'landlord_id');
+       return $this->morphMany(PlotLocation::class,'plot_locationable');
     }
 
     public function houses()

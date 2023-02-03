@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Landlords\Caretakers;
+use App\Models\LandLords\LandLords;
+use App\Models\LandLords\SessionPlot;
+use App\Models\Tenants\Tenants;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,10 +21,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'username', 'email', 'password', 'month',
+        'year', 'remember_token', 'api_token', 'phoneno', 'userpin', 'terms_and_conditions',
+        'is_owner',
+        'is_employee',
+        'role',
     ];
 
     /**
@@ -46,5 +54,40 @@ class User extends Authenticatable
     {
         # code...
         return $this->morphTo();
+    }
+
+    public function profile()
+    {
+        # code...
+        return $this->morphOne(Profile::class, "profileable");
+    }
+
+    public function houseBooking()
+    {
+        # code...
+        return $this->morphMany(BookedHouses::class, "bookable");
+    }
+
+    public function tenant()
+    {
+        # code...
+        return $this->morphOne(Tenants::class, "tenantable");
+    }
+    public function landlord()
+    {
+        # code...
+        return $this->morphOne(LandLords::class, "landlordable");
+    }
+
+    public function caretaker()
+    {
+        # code...
+        return $this->morphOne(Caretakers::class, "caretakerable");
+    }
+
+    public function sessionPlot()
+    {
+        # code...
+        return $this->morphOne(SessionPlot::class,'sessionable');
     }
 }

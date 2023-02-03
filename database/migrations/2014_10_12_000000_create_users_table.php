@@ -13,6 +13,9 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        /*
+        *role => 0=> admin 1= tenant 2=> landord
+        */
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('userable_id')->nullable();

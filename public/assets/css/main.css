@@ -6,7 +6,7 @@
 :root {
     --blue: #0066d3;
     --indigo: #4a06b8;
-    --purple: #5a11e2;
+    --purple: #111013;
     --pink: #e83e8c;
     --red: #dc3545;
     --orange: #fd7e14;
@@ -72,7 +72,7 @@ body {
     line-height: 1;
     color: #000000;
     text-align: left;
-    padding: 0.475rem;
+    /* padding: 0.475rem; */
     background-color: #ffffffff;
 }
 
@@ -4675,6 +4675,10 @@ input[type="button"].btn-block {
     padding: 0.5rem 1rem;
 }
 
+.nav-link.secondary {
+    color: white;
+}
+
 .nav-link:hover,
 .nav-link:focus {
     text-decoration: none;
@@ -7390,6 +7394,12 @@ button.bg-primary:focus {
 
 .bg-secondary {
     background-color: #6c757d !important;
+    color: white;
+}
+
+a.bg-secondary {
+    background-color: #6c757d !important;
+    color: white;
 }
 
 a.bg-secondary:hover,
@@ -12421,7 +12431,6 @@ body.stop-scrolling {
 .sweet-alert input:focus {
     border-color: #009688;
     outline: none;
-    
 }
 
 .sweet-alert.show-input input {
@@ -15516,7 +15525,7 @@ be a descendant of the grid when it is being dragged.
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    background-color: #4561f5;
+    background-color: black;
     z-index: 1030;
     padding-right: 15px;
 }
@@ -15537,7 +15546,7 @@ be a descendant of the grid when it is being dragged.
     -webkit-box-flex: 1;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
-    color: #040505;
+    color: white;
     text-align: center;
     font-family: "Niconne";
     padding: 0 15px;
@@ -15553,7 +15562,7 @@ be a descendant of the grid when it is being dragged.
         flex: 0 0 auto;
         display: block;
         width: 230px;
-        background-color: #0066d3;
+        background-color: var(--gray-dark);
     }
 }
 
@@ -15759,9 +15768,10 @@ be a descendant of the grid when it is being dragged.
     width: 230px;
     overflow: auto;
     z-index: 10;
-    background-color: #138496;
-    background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
-    background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+    background-color: black;
+    color: white!important;
+    /* background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+    background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5); */
     -webkit-box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
     -webkit-transition: left 0.3s ease, width 0.3s ease;
@@ -15847,7 +15857,7 @@ be a descendant of the grid when it is being dragged.
     -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
     -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
     transition: border-left-color 0.3s ease, background-color 0.3s ease;
-    color: #093301;
+    color: white;
 }
 
 .app-menu__item.active,
@@ -15913,9 +15923,9 @@ be a descendant of the grid when it is being dragged.
 .treeview-item.active,
 .treeview-item:hover,
 .treeview-item:focus {
-    background: #0d1214;
+    background: lightgray;
     text-decoration: none;
-    color: #fff;
+    color: black;
 }
 
 .treeview-item .icon {
@@ -16490,8 +16500,8 @@ be a descendant of the grid when it is being dragged.
 
 .material-half-bg {
     height: 100vh;
-    background: -webkit-linear-gradient(to right, #ffffff, #7a97cc, #000054);
-    background: linear-gradient(to right, #ffffff, #7a97cc, #000054);
+    background: -webkit-linear-gradient(to right, #808080, #404040, #000000);
+    background: linear-gradient(to right, #808080, #404040, #000000);
     position: fixed;
     top: 0;
     left: 0;
@@ -16501,8 +16511,8 @@ be a descendant of the grid when it is being dragged.
 }
 
 .material-half-bg .cover {
-    background: -webkit-linear-gradient(to right, #ffffff, #7a97cc, #000054);
-    background: linear-gradient(to right, #ffffff, #7a97cc, #000054);
+    background: -webkit-linear-gradient(to right, #808080, #404040, #000000);
+    background: linear-gradient(to right, #808080, #404040, #000000);
     height: 50vh;
 }
 
@@ -17005,9 +17015,9 @@ be a descendant of the grid when it is being dragged.
     min-height: 450px;
     border-radius: 30px !important;
     background-color: #edeff7;
-    -webkit-box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
+    -webkit-box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.3),
         0px 29px 95px 0px rgba(0, 0, 0, 0.16);
-    box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
+    box-shadow: 0px 29px 100.5px 102.5px rgba(0, 0, 0, 0.3),
         0px 29px 95px 0px rgba(0, 0, 0, 0.16);
     -webkit-perspective: 800px;
     perspective: 800px;
@@ -17018,10 +17028,13 @@ be a descendant of the grid when it is being dragged.
 
 .login-content .register-box {
     position: relative;
-    min-width: 40%;
-    min-height: 390px;
+    /* min-width: 700px;
+    min-height: 700px; */
     border-radius: 30px !important;
     background-color: #edeff7;
+
+    width: 60vw;
+    height: 130vh;
     -webkit-box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
         0px 29px 95px 0px rgba(0, 0, 0, 0.16);
     box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
@@ -17031,6 +17044,70 @@ be a descendant of the grid when it is being dragged.
     -webkit-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
+}
+@media screen  and (max-width : 800px) {
+    .login-content .register-box {
+        position: relative;
+        border-radius: 30px !important;
+        background-color: #edeff7;
+        width: 90vw;
+        height: 170vh;
+        margin: 10px;
+        -webkit-box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
+            0px 29px 95px 0px rgba(0, 0, 0, 0.16);
+        box-shadow: 0px 29px 147.5px 102.5px rgba(0, 0, 0, 0.05),
+            0px 29px 95px 0px rgba(0, 0, 0, 0.16);
+        /* -webkit-perspective: 800px;
+        perspective: 800px; */
+        -webkit-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+}
+.login-content .register-box .register-form,
+.login-content .register-box .landlord-form {
+    position: absolute;
+    width: auto !important;
+    height: auto !important;
+    content: normal;
+    background-color: #edeff7;
+    border-radius: 30px !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.landlord-form {
+    background-color: #001b19;
+}
+
+.login-content .register-box .landlord-form {
+    opacity: 0;
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.login-content .register-box.register-flipped {
+    min-height: 300px;
+}
+
+.login-content .register-box.register-flipped .register-form {
+    opacity: 0;
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+.login-content .register-box.register-flipped .landlord-form {
+    opacity: 1;
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
 }
 
 .login-content .retail-box {

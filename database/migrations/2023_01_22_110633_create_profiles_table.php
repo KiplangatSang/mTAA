@@ -17,8 +17,10 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->bigInteger("profileable_id");
             $table->string("profileable_type");
+            $table->bigInteger("user_id");
             $table->bigInteger("landlord_id")->nullable();
             $table->bigInteger("caretaker_id")->nullable();
+            $table->longText("profile_image")->nullable();
             $table->timestamps();
         });
     }

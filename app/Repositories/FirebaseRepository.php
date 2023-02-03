@@ -17,7 +17,7 @@ class FirebaseRepository
     protected $retail = null;
     public function __construct($account = null)
     {
-        $this->factory = (new Factory)
+        $this->factory = (new Kreait\Firebase\Factory())
             // ->withServiceAccount("C:\\xampp\\htdocs\\DukaVerse\\storage\\app\\firebase\\firebase_credentials.json")
             ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
             ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));

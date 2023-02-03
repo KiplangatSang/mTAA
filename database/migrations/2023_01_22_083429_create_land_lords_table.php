@@ -17,8 +17,8 @@ class CreateLandLordsTable extends Migration
             $table->id();
             $table->bigInteger("landlordable_id");
             $table->string("landlordable_type");
-            $table->string("contact_phone_number_1");
-            $table->string("contact_phone_number_2");
+            $table->string("contact_phone_number_1")->nullable();
+            $table->string("contact_phone_number_2")->nullable();
             $table->string("account_type")->nullable();
             $table->string("account")->nullable();
             $table->timestamps();

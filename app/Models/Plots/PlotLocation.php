@@ -13,13 +13,13 @@ class PlotLocation extends Model
 
     protected $guarded = [];
 
-    public function plotLocationable()
+    public function plot_locationable()
     {
         # code...
         return $this->morphTo();
     }
 
-    public function caretakers()
+    public function caretaker()
     {
         # code...
         return $this->belongsTo(Caretakers::class,'caretaker_id');
@@ -29,7 +29,7 @@ class PlotLocation extends Model
     {
         # code...
 
-        return $this->hasMany(Tenants::class,'plot_locations_tenants');
+        return $this->belongsToMany(Tenants::class,'plot_locations_tenants');
     }
 
     public function houses()

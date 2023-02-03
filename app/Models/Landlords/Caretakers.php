@@ -22,11 +22,6 @@ class Caretakers extends Model
         # code...
         return $this->morphTo();
     }
-    public function user()
-    {
-        # code...
-       return $this->morphOne(User::class,'userable');
-    }
 
     public function tenants()
     {
@@ -46,7 +41,7 @@ class Caretakers extends Model
        return $this->hasMany(Houses::class,'caretaker_id');
     }
 
-    public function plotslocation()
+    public function plotlocations()
     {
         # code...
        return $this->hasMany(PlotLocation::class,'caretaker_id');

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plots\Houses;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class HomeController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -23,6 +24,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        if ($this->user()->role == 1) {
+            //tenants account
+            $tenants = $this->user()->tenant()
+                ->with('houses')->first();
+            $homedata['houses'] = $tenants->houses;
+            return view('users.home', compact('homedata'));
+        } else if ($this->user()->role == 2) {
+            return redirect(route('session.plotlocation.index'));
+
+        }
+    }
+
+    public function landlord()
+    {
+        # code...
+
+        if ($this->plotsession()){
+            $plotSession = $this->plotsession();
+        return view("landlord.home", compact('plotSession'));
+    }else{
+        return redirect(route('session.plotlocation.index'))->with('error',"Select the plot first");
+    }
     }
 }

@@ -16,17 +16,18 @@ class CreatePlotLocationsTable extends Migration
         Schema::create('plot_locations', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('plot_locationable_id');
-            $table->bigInteger('plot_locationable_type');
-            $table->bigInteger('landlord_id');
-            $table->bigInteger('caretaker_id');
-            $table->location('caretaker_id');
-            $table->longText('gate');
+            $table->string('plot_locationable_type');
+            $table->bigInteger('landlord_id')->nullable();
+            $table->bigInteger('caretaker_id')->nullable();
+            $table->string('name');
+            $table->longText('location')->nullable();
+            $table->longText('gate')->nullable();
             $table->integer('no_of_houses');
+            $table->longText('house_types');
             $table->string('town');
-            $table->string('city');
+            $table->string('city')->nullable();
             $table->string('constituency');
             $table->string('county');
-            $table->string('city');
             $table->string('country');
             $table->string("account_type")->nullable();
             $table->string("account")->nullable();

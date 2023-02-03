@@ -16,7 +16,7 @@ class PlotLocationsTenants extends Migration
         //
         Schema::create('plot_locations_tenants', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('plot_locations_id');
+            $table->bigInteger('plot_location_id');
             $table->bigInteger('tenants_id');
             $table->timestamps();
         });

@@ -17,7 +17,7 @@ class CreateHousesTable extends Migration
             $table->id();
             $table->string('house_id');
             $table->bigInteger('housable_id');
-            $table->bigInteger('housable_type');
+            $table->string('housable_type');
             $table->bigInteger('caretaker_id');
             $table->bigInteger('tenant_id');
             $table->bigInteger('plot_location_id');
