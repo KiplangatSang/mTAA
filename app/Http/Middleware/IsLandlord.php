@@ -18,7 +18,7 @@ class IsLandlord
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user() &&  Auth::user()->is_admin == 1) {
+        if (Auth::user() &&  Auth::user()->is_landlord == 1) {
             return $next($request);
        }
 
