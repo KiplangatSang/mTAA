@@ -100,7 +100,7 @@
             <!--buttons-->
             <div class="row  mx-auto d-flex justify-content-center">
                 <div class="d-grid gap-2 m-1">
-                    <a href="#" class="btn btn-outline-warning" onclick="sendhouse_book_form()" type="button"><Strong>Bookings</Strong></a>
+                    <a href="{{ route('landlord.houses.booked.show',['id'=>$housedata['house']->id])  }}" class="btn btn-outline-warning"  type="button"><Strong>Bookings</Strong></a>
                 </div>
                 <form action="{{ route('houses.book.store') }}" id="house_book_form" method="POST" class="d-none">
                     @csrf

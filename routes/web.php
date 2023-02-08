@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Houses\HouseBookingController;
+use App\Http\Controllers\Landlord\HouseBookingController as LandlordHouseBookingController;
 use App\Http\Controllers\Landlord\HouseController;
 use App\Http\Controllers\Landlord\PlotLocationController;
 use App\Http\Controllers\Landlord\PlotSessionController;
@@ -92,6 +93,13 @@ Route::post('/landlord/houses/upload/outsideimages', [HouseController::class,'up
 Route::post('/landlord/houses/upload/insideimages', [HouseController::class,'uploadInsideImages'])->name('houses.images.upload.inside');
 
 Route::get('/landlord/houses/delete/{id}', [HouseController::class,'destroy'])->name('landlord.houses.delete');
+
+Route::get('/landlord/houses/boookings/{id}', [LandlordHouseBookingController::class,'show'])->name('landlord.houses.booked.show');
+Route::post('/landlord/houses/payment/refund/{house_id}', [LandlordHouseBookingController::class,'refund'])->name('landlord.payment.reverse');
+Route::post('/landlord/houses/tenant/store/{house_id}/{tenant_id}', [LandlordHouseBookingController::class,'tenant_accept'])->name('landlord.houses.tenant.store');
+Route::get('/landlord/houses/tenant/request_payment/{house_id}/{tenant_id}', [LandlordHouseBookingController::class,'tenant_requet_payment'])->name('landlord.houses.tenant.requet-payment');
+
+
 
 Route::get('/landlord/houses/types', function () {
     return "landlord.houses.types";

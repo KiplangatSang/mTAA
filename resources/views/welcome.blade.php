@@ -9,7 +9,7 @@
                 <h4>Available Houses</h4>
             </div>
         </div>
-        <div class="col col-md-3 col-xl-3 mr-auto float-right">/welcome</div>
+        <div class="col col-md-3 col-xl-3 mr-auto float-right">/houses</div>
     </nav>
     @endif
 
@@ -84,9 +84,11 @@
                     </select>
                 </form>
             </div>
+            @auth
             <div class="col  ml-auto">
                 <a class="btn btn-dark" href="{{ route('houses.booked') }}">My Bookings</a>
             </div>
+            @endauth
         </nav>
         <nav class="navbar  justify-content-center p-1 m-2">
             <div class="form-inline">
