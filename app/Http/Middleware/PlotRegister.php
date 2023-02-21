@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-class IsTenant
+class PlotRegister
 {
     /**
      * Handle an incoming request.
@@ -18,10 +18,13 @@ class IsTenant
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if (Auth::user() &&  Auth::user()->role == 1) {
-            return $next($request);
-       }
-
-       return redirect(route('welcome'))->with('error','You are not registered as a tenant');    }
+        if (Auth::user()) {
+            $user = User::where('id', auth()->id())
+                ->first();
+            if ($user->landlord()->first()->has('plotlocations')) {
+                return $next($request);
+            }
+        }
+        return redirect(route(route('landlord.plotlocation.create')))->with('error', 'You have not registered any plot');
+    }
 }

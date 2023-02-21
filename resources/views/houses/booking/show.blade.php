@@ -141,52 +141,28 @@
                                                 <div class="col-12 text-center mb-2">
                                                     <ul class="list-inline mb-4" id="portfolio-flters">
                                                         <li class="btn btn-secondary m-1 active" data-filter=".{{ $housedata['house']->house_id.$housedata['house']->id }}">All</li>
-                                                        <li class="btn btn-secondary m-1 " data-filter=".{{ $housedata['house']->house_id.$housedata['house']->id.'first' }}">Inside </li>
-                                                        <li class="btn btn-secondary m-1" data-filter=".{{ $housedata['house']->house_id.$housedata['house']->id.'second' }}">Outside</li>
+                                                        <li class="btn btn-secondary m-1 " data-filter=".{{ $housedata['house']->house_id.$housedata['house']->id.'inside' }}">Inside </li>
+                                                        <li class="btn btn-secondary m-1" data-filter=".{{ $housedata['house']->house_id.$housedata['house']->id.'outside' }}">Outside</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="row portfolio-container">
-                                                <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.'first' }}">
+
+                                                @if($housedata['house']->pictures)
+                                                @foreach ((array)json_decode($housedata['house']->pictures) as $key=>$image)
+
+                                                <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.$key }}">
                                                     <div class="position-relative overflow-hidden mb-2">
-                                                        <img class="img-fluid w-100" src="{{  url('/assets/images_view/img/portfolio-2.png') }}" alt="">
+                                                        <img class="img-fluid w-100" src="{{ $image }}" alt="">
                                                         <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                            <a href="{{ url('/assets/images_view/img/portfolio-2.png')}}" data-lightbox="portfolio{{ $housedata['house']->id }}">
+                                                            <a href="{{ $image }}" data-lightbox="portfolio{{ $housedata['house']->id }}">
                                                                 <i class="bi bi-plus text-light"></i>
                                                             </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.'first' }}">
-                                                    <div class="position-relative overflow-hidden mb-2">
-                                                        <img class="img-fluid w-100" src="{{ url('/assets/images_view/img/portfolio-2.png')}}" alt="">
-                                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                            <a href="{{ url('/assets/images_view/img/portfolio-2.png')}}" data-lightbox="portfolio{{ $housedata['house']->id }}">
-                                                                <i class="bi bi-plus text-light"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.'first' }}">
-                                                    <div class="position-relative overflow-hidden mb-2">
-                                                        <img class="img-fluid w-100" src="{{ url('/assets/images_view/img/portfolio-3.jpg')}}" alt="">
-                                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                            <a href="{{ url('/assets/images_view/img/portfolio-3.jpg')}}" data-lightbox="portfolio{{ $housedata['house']->id }}">
-                                                                <i class="bi bi-plus text-light"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.'second' }}">
-                                                    <div class="position-relative overflow-hidden mb-2">
-                                                        <img class="img-fluid w-100" src="{{ url('/assets/images_view/img/portfolio-4.jpg')}}" alt="">
-                                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                            <a href="{{ url('/assets/images_view/img/portfolio-4.jpg')}}" data-lightbox="portfolio{{ $housedata['house']->id }}">
-                                                                <i class="bi bi-plus text-light"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @endforeach
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

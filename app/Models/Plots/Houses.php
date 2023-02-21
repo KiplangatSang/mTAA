@@ -15,7 +15,7 @@ class Houses extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function housable()
+    public function houseable()
     {
         # code...
         return $this->morphTo();

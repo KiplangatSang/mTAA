@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Plots\PlotLocation;
 use App\Retails\Retail;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,15 +15,13 @@ class FirebaseRepository
 {
 
     protected $factory = null;
-    protected $retail = null;
+    protected $account = null;
     public function __construct($account = null)
     {
-        $this->factory = (new Kreait\Firebase\Factory())
-            // ->withServiceAccount("C:\\xampp\\htdocs\\DukaVerse\\storage\\app\\firebase\\firebase_credentials.json")
+        $this->factory = (new Factory())
             ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
             ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));
-        // dd(env('FIREBASE_DATABASE_URL'));
-        $this->retail = $account;
+        $this->account = $account;
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +43,7 @@ class FirebaseRepository
 
             $pathName = $image->getPathName();
 
-            $package =  $this->firebaseRepositories($this->retail, $user);
+            $package =  $this->firebaseRepositories($this->account, $user);
             $filename = $package . $folder . "/" . $name;
             // $file = fopen($pathName, 'r');
             $file = fopen($pathName, 'r');
@@ -63,20 +62,18 @@ class FirebaseRepository
         }
     }
 
-    public function firebaseRepositories(Retail $retail = null, User $user)
+    public function firebaseRepositories(PlotLocation $plot = null, User $user)
     {
         # code...
         $package = "";
-        if ($user->isAdmin) {
+        if ($user->role == 0) {
             $package = "admin/" . $user->id . "/";
-        } elseif ($user->isEmployee) {
-            $package = "client/" . $retail->id . "/employee/" . $user->id . "/";
-        } elseif (!$user->isEmployee && $user->role == 1) {
-            $package = "client/" . $retail->id . "/" . $user->id . "/";
         } elseif ($user->role == 2) {
-            $package = "supplier/" . $user->id . "/";
+            $package = "landlord/" . $plot->id . $user->id . "/";
+        } elseif ($user->role == 1) {
+            $package = "tenant/" . $user->id . "/";
         } elseif ($user->role == 3) {
-            $package = "customers/" . $user->id . "/";
+            $package = "caretaker/" . $plot->id . $user->id . "/";
         }
         return $package;
     }

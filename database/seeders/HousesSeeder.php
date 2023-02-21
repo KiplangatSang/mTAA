@@ -18,9 +18,11 @@ class HousesSeeder extends Seeder
         //
 
         $pictures = array(
-            " https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
-            " https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
-            "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
+                "inside" => "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
+                "outside" => "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
+                "inside" => "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
+                "outside" => "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
+                "outside" => "https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png",
         );
 
         // DB::table('houses')->delete();
@@ -28,8 +30,8 @@ class HousesSeeder extends Seeder
         $houses = array(
             array(
                 "house_id" => Str::random(5),
-                "housable_id" => 1,
-                "housable_type" => "App\Models\LandLords\LandLords",
+                "houseable_id" => 1,
+                "houseable_type" => "App\Models\LandLords\LandLords",
                 "caretaker_id" => 1,
                 "tenant_id" => 2,
                 "plot_location_id" => rand(2, 3),
@@ -43,8 +45,8 @@ class HousesSeeder extends Seeder
             ),
             array(
                 "house_id" => Str::random(5),
-                "housable_id" => 1,
-                "housable_type" => "App\Models\LandLords\LandLords",
+                "houseable_id" => 1,
+                "houseable_type" => "App\Models\LandLords\LandLords",
                 "caretaker_id" => 1,
                 "tenant_id" => 2,
                 "plot_location_id" => rand(2, 3),
@@ -58,8 +60,8 @@ class HousesSeeder extends Seeder
             ),
             array(
                 "house_id" => Str::random(5),
-                "housable_id" => 1,
-                "housable_type" => "App\Models\LandLords\LandLords",
+                "houseable_id" => 1,
+                "houseable_type" => "App\Models\LandLords\LandLords",
                 "caretaker_id" => 1,
                 "tenant_id" => 2,
                 "plot_location_id" => rand(2, 3),
@@ -73,8 +75,8 @@ class HousesSeeder extends Seeder
             ),
             array(
                 "house_id" => Str::random(5),
-                "housable_id" => 1,
-                "housable_type" => "App\Models\LandLords\LandLords",
+                "houseable_id" => 1,
+                "houseable_type" => "App\Models\LandLords\LandLords",
                 "caretaker_id" => 1,
                 "tenant_id" => 2,
                 "plot_location_id" => rand(2, 3),
@@ -88,8 +90,8 @@ class HousesSeeder extends Seeder
             ),
             array(
                 "house_id" => Str::random(5),
-                "housable_id" => 1,
-                "housable_type" => "App\Models\LandLords\LandLords",
+                "houseable_id" => 1,
+                "houseable_type" => "App\Models\LandLords\LandLords",
                 "caretaker_id" => 1,
                 "tenant_id" => 2,
                 "plot_location_id" => rand(2, 3),

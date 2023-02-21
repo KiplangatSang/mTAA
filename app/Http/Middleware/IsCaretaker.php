@@ -19,10 +19,10 @@ class IsCaretaker
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user() &&  Auth::user()->is_caretaker == 1) {
+        if (Auth::user() &&  Auth::user()->role == 3) {
             return $next($request);
        }
 
-       return redirect('home')->with('error','You have not admin access');
+       return redirect(route('welcome'))->with('error','You have not registered as a caretaker');
     }
 }

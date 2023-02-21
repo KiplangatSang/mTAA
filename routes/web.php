@@ -8,8 +8,10 @@ use App\Http\Controllers\Landlord\PlotLocationController;
 use App\Http\Controllers\Landlord\PlotSessionController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Plots\Houses;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,90 +36,106 @@ Route::get('/help', function () {
 
 Auth::routes();
 
+//home route
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/search-houses', [WelcomeController::class, 'search'])->name('search-houses');
 
-Route::get('/houses/book/show/{id}', [HouseBookingController::class, 'show'])->name('houses.book');
-Route::get('/houses/book/pay/{id}', [HouseBookingController::class, 'pay'])->name('houses.book.pay');
-
-Route::post('/houses/book/store', [HouseBookingController::class, 'store'])->name('houses.book.store');
-Route::get('/houses/book/index', [HouseBookingController::class, 'index'])->name('houses.booked');
-Route::get('/houses/book/destroy/{id}', [HouseBookingController::class, 'destroy'])->name('houses.booked.delete');
-
 Route::get('/houses', function () {
     return redirect(route('home'));
 })->name('houses');
+//houses group
+Route::prefix('/houses')->name('houses.')->group(
+    function () {
+        //session plot
 
-//landlords
-Route::get('/landlord/home', [HomeController::class,'landlord'])->name('landlord.home');
-Route::get('/landlord/houses', function () {
-    return "houses";
-})->name('landlord.houses');
-Route::get('/landlord/house/bookings', function () {
-    return "houses";
-})->name('landlord.house.bookings');
-Route::get('/landlord/caretakers', function () {
-    return "caretakers";
-})->name('landlord.caretakers');
-Route::get('/landlord/accounts', function () {
-    return "Accounts";
-})->name('landlord.accounts');
-Route::get('/landlord/tenants', function () {
-    return "tenants";
-})->name('landlord.tenants');
+        Route::get('/book/show/{id}', [HouseBookingController::class, 'show'])->name('book');
+        Route::get('/book/pay/{id}', [HouseBookingController::class, 'pay'])->name('book.pay');
+        Route::post('/book/store', [HouseBookingController::class, 'store'])->name('book.store');
+        Route::get('/book/index', [HouseBookingController::class, 'index'])->name('booked');
+        Route::get('/book/destroy/{id}', [HouseBookingController::class, 'destroy'])->name('booked.delete');
 
-//plot location
-Route::get('/landlord/plots/index', [PlotLocationController::class, 'index'])->name('landlord.plotlocation');
-Route::get('/landlord/plots/create', [PlotLocationController::class, 'create'])->name('landlord.plotlocation.create');
-Route::post('/landlord/plots/store', [PlotLocationController::class, 'store'])->name('landlord.plotlocation.store');
-Route::get('/landlord/plots/show/{id}', [PlotLocationController::class, 'show'])->name('landlord.plotlocation.show');
-Route::get('/landlord/plots/edit/{id}', [PlotLocationController::class, 'edit'])->name('landlord.plotlocation.edit');
-Route::post('/landlord/plots/update/{id}', [PlotLocationController::class, 'update'])->name('landlord.plotlocation.update');
+        //houses pictures
+        Route::get('/pictures/show', [HouseBookingController::class, 'show'])->name('pictures.show');
+        Route::post('/pictures/inside/store', [HouseController::class, 'uploadInsideImages'])->name('images.inside.store');
+        Route::post('/pictures/outside/store', [HouseController::class, 'uploadOutsideImages'])->name('images.outside.store');
 
-//session plot
-Route::get('/session/plot', [PlotSessionController::class, 'index'])->name('session.plotlocation.index');
-Route::post('/session/plot', [PlotSessionController::class, 'store'])->name('session.plotlocation.store');
+    }
+);
 
 
+//session group
+Route::prefix('/session')->name('session.')->middleware(['landlord',])->group(
+    function () {
+        //session plot
+        Route::get('/plot', [PlotSessionController::class, 'index'])->name('plotlocation.index');
+        Route::post('/plot/store', [PlotSessionController::class, 'store'])->name('plotlocation.store');
+    }
+);
 
 
-//houses
-Route::get('/landlord/houses/index', [HouseController::class,'index'])->name('landlord.houses');
-Route::get('/landlord/houses/create', [HouseController::class,'create'])->name('landlord.houses.create');
-Route::get('/landlord/houses/show/{id}', [HouseController::class,'show'])->name('landlord.houses.show');
-Route::get('/landlord/houses/delete/{id}', [HouseController::class,'destroy'])->name('landlord.houses.delete');
-Route::post('/landlord/houses/store', [HouseController::class,'store'])->name('landlord.houses.store');
+//landlords group
+Route::prefix('/landlord')->name('landlord.')->middleware(['landlord','plotregister','plotsession'])->group(
+    function () {
+        Route::get('/home', [HomeController::class, 'landlord'])->name('home');
 
-Route::post('/landlord/houses/upload/outsideimages', [HouseController::class,'uploadOutsideImages'])->name('houses.images.upload.outside');
-Route::post('/landlord/houses/upload/insideimages', [HouseController::class,'uploadInsideImages'])->name('houses.images.upload.inside');
+        // Route::get('/caretakers', function () {
+        //     return "caretakers";
+        // })->name('caretakers');
+        // Route::get('/accounts', function () {
+        //     return "Accounts";
+        // })->name('accounts');
+        // Route::get('/tenants', function () {
+        //     return "tenants";
+        // })->name('tenants');
 
-Route::get('/landlord/houses/delete/{id}', [HouseController::class,'destroy'])->name('landlord.houses.delete');
+        // plot location
+        Route::get('/plots/index', [PlotLocationController::class, 'index'])->name('plotlocation');
+        Route::get('/plots/create', [PlotLocationController::class, 'create'])->name('plotlocation.create');
+        Route::post('/plots/store', [PlotLocationController::class, 'store'])->name('plotlocation.store');
+        Route::get('/plots/show/{id}', [PlotLocationController::class, 'show'])->name('plotlocation.show');
+        Route::get('/plots/edit/{id}', [PlotLocationController::class, 'edit'])->name('plotlocation.edit');
+        Route::post('/plots/update/{id}', [PlotLocationController::class, 'update'])->name('plotlocation.update');
 
-Route::get('/landlord/houses/boookings/{id}', [LandlordHouseBookingController::class,'show'])->name('landlord.houses.booked.show');
-Route::post('/landlord/houses/payment/refund/{house_id}', [LandlordHouseBookingController::class,'refund'])->name('landlord.payment.reverse');
-Route::post('/landlord/houses/tenant/store/{house_id}/{tenant_id}', [LandlordHouseBookingController::class,'tenant_accept'])->name('landlord.houses.tenant.store');
-Route::get('/landlord/houses/tenant/request_payment/{house_id}/{tenant_id}', [LandlordHouseBookingController::class,'tenant_requet_payment'])->name('landlord.houses.tenant.requet-payment');
+        //houses
+        Route::get('/houses/index', [HouseController::class, 'index'])->name('houses');
+        Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
+        Route::get('/houses/show/{id}', [HouseController::class, 'show'])->name('houses.show');
+        Route::get('/houses/delete/{id}', [HouseController::class, 'destroy'])->name('houses.delete');
+        Route::post('/houses/store', [HouseController::class, 'store'])->name('houses.store');
+
+        Route::post('/houses/upload/outsideimages', [HouseController::class, 'uploadOutsideImages'])->name('images.upload.outside');
+        Route::post('/houses/upload/insideimages', [HouseController::class, 'uploadInsideImages'])->name('images.upload.inside');
+
+        Route::get('/houses/delete/{id}', [HouseController::class, 'destroy'])->name('houses.delete');
+
+        //bookings
+        Route::get('/houses/boookings/index', [LandlordHouseBookingController::class, 'index'])->name('houses.booked.index');
+        Route::get('/houses/boookings/{id}', [LandlordHouseBookingController::class, 'show'])->name('houses.booked.show');
+        Route::post('/houses/payment/refund/{house_id}', [LandlordHouseBookingController::class, 'refund'])->name('payment.reverse');
+        Route::post('/houses/tenant/store/{house_id}/{tenant_id}', [LandlordHouseBookingController::class, 'tenant_accept'])->name('houses.tenant.store');
+        Route::get('/houses/tenant/request_payment/{house_id}/{tenant_id}', [LandlordHouseBookingController::class, 'tenant_requet_payment'])->name('houses.tenant.requet-payment');
 
 
 
-Route::get('/landlord/houses/types', function () {
-    return "landlord.houses.types";
-})->name('landlord.houses.types');
+        Route::get('/houses/types', function () {
+            return view("landlord.houses.types.index");
+        })->name('houses.types');
 
+        //caretakers
+        Route::get('/caretakers/index', function () {
+            return "/landlord/caretakers/index";
+        })->name('caretakers');
+        Route::get('/caretakers/create', function () {
+            return "landlord.caretakers.create";
+        })->name('caretakers.create');
 
-//caretakers
-Route::get('/landlord/caretakers/index', function () {
-    return "/landlord/caretakers/index";
-})->name('landlord.caretakers');
-Route::get('/landlord/caretakers/create', function () {
-    return "landlord.caretakers.create";
-})->name('landlord.caretakers.create');
-
-//tenants
-Route::get('/landlord/tenants/index', function () {
-    return "/landlord/tenants/index";
-})->name('landlord.tenants');
-Route::get('/landlord/tenants/create', function () {
-    return "landlord.tenants.create";
-})->name('landlord.tenants.create');
+        //tenants
+        Route::get('/tenants/index', function () {
+            return "/landlord/tenants/index";
+        })->name('tenants');
+        Route::get('/tenants/create', function () {
+            return "landlord.tenants.create";
+        })->name('tenants.create');
+    }
+);

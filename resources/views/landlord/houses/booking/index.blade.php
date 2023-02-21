@@ -2,18 +2,17 @@
 @section("content")
 <div class="container-fluid">
     <!--section  nav-->
-    @if (auth()->user())
     <nav class="navbar bg-dark justify-content-between">
         <div class="col">
             <div class="row">
-                <h4>Available Houses</h4>
+                <h4>My Selection</h4>
             </div>
         </div>
-        <div class="col col-md-3 col-xl-3 mr-auto float-right">/houses</div>
+        <div class="col col-md-3 col-xl-3 mr-auto float-right">/houses/booked</div>
     </nav>
-    @endif
-
+    <!--countries and search area top nav   bar-->
     <div class="col col-md-6 col-xl-8 ml-auto">
+        <!--location top nav   bar-->
         <nav class="navbar  justify-content-between container-fluid">
             <div class="col">
                 <a class="app-nav__item bg-white text-dark" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">Country</a>
@@ -84,12 +83,12 @@
                     </select>
                 </form>
             </div>
-            @auth
             <div class="col  ml-auto">
-                <a class="btn btn-dark" href="{{ route('houses.booked') }}">My Bookings</a>
+                <a class="btn btn-outline-info" href="{{ route('home') }}">Search More</a>
             </div>
-            @endauth
         </nav>
+
+        <!--search area top nav   bar-->
         <nav class="navbar  justify-content-center p-1 m-2">
             <div class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchbox">
@@ -97,9 +96,12 @@
             </div>
         </nav>
     </div>
+    <!--houses and categores area-->
     <div class="mt-3 ">
         <div class="row ">
+            <!-- categores left side  bar-->
             <div class="col-md-6 col-xl-3 m-2">
+                <h5 class="text-danger">Choose more from categories</h5>
                 @foreach ($data['availableHouseCategories'] as $key=>$category)
                 <div class="row">
                     <a class="text-dark" onclick="sendform('category'+ @json($key))" id="category{{ $key }}">
@@ -113,17 +115,17 @@
                     <input type="text" name="type" value="" id="type_input">
                 </form>
             </div>
+            <!--houses-->
             <div class=" col-md col-xl col-lg">
-
                 <div class="row">
                     @foreach ($homedata['houses'] as $house)
                     <div class="house col col-md-4">
                         <div class="card p-1 m-1" style="width: auto; max-width:18rem;">
                             <img class="img-fluid w-100" src="https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png" alt="">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $house->type }}</h5>
-                                <p>Price <strong>{{ $house->price }} ksh</strong></p>
-                                <p>Location <strong>{{ $house->location }}</strong></p>
+                                <h5 class="card-title">{{ $house->house->type }}</h5>
+                                <p>Price <strong>{{ $house->house->price }} ksh</strong></p>
+                                <p>Location <strong>{{ $house->house->location }}</strong></p>
                                 <div class="row bg-dark">
                                     <!-- Images Start -->
                                     <section class="py-2 border-bottom wow fadeInUp" data-wow-delay="0.1s">
@@ -160,8 +162,17 @@
                                     </section>
                                     <!-- Images End -->
                                 </div>
-                                <div class="d-grid gap-2 mt-1">
-                                    <a href="{{ route('houses.book',['id'=>$house->id]) }}" class="btn btn-outline-dark" type="button"><Strong>Book Now</Strong></a>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="d-grid gap-2 mt-1">
+                                            <a href="{{ route('houses.booked.delete',['id'=>$house->id]) }}" class="btn btn-danger" type="button"><Strong>Remove</Strong></a>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-grid gap-2 mt-1">
+                                            <a href="{{ route('houses.book.pay',['id'=>$house->id]) }}" class="btn btn-outline-success" type="button"><Strong>Pay Deposit</Strong></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -196,10 +207,6 @@
                 }
             });
         }
-
-
-
-
 
         function sendform(key) {
 

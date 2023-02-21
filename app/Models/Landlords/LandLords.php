@@ -50,7 +50,7 @@ class LandLords extends Model
     public function houses()
     {
         # code...
-       return $this->hasMany(Houses::class,'landlord_id');
+       return $this->morphMany(Houses::class,'houseable');
     }
 
     public function payment()

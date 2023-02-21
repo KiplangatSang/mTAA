@@ -16,10 +16,10 @@ class CreateHousesTable extends Migration
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
             $table->string('house_id');
-            $table->bigInteger('housable_id');
-            $table->string('housable_type');
-            $table->bigInteger('caretaker_id');
-            $table->bigInteger('tenant_id');
+            $table->string('houseable_id');
+            $table->string('houseable_type');
+            $table->bigInteger('caretaker_id')->nullable();
+            $table->bigInteger('tenant_id')->nullable();
             $table->bigInteger('plot_location_id');
             $table->longText('pictures')->nullable();
             $table->string('price');

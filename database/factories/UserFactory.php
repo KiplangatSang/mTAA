@@ -23,8 +23,6 @@ class UserFactory extends Factory
             'userpin' => 7765,
             'phoneno' => "254714680763",
             'terms_and_conditions' => 'Accepted',
-            'is_owner' => false,
-            'is_employee' => false,
             'is_admin' => true,
             'role' => 0,
             'is_suspended' => false,

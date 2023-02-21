@@ -26,10 +26,12 @@ class PlotSessionController extends BaseController
         }
 
         $sessiondata['plots'] = $plots;
-
         if (count($plots) == 1) {
-            $this->store($plots->first()->id);
-            return redirect(route('home'));
+          $request = new Request();
+          $request['plot'] =  $plots->first()->id;
+            $this->store($request);
+           return redirect(route('landlord.home'));
+        //    return redirect(route('landlord.plotlocation.create'));
         } else if (count($plots) < 1) {
             return redirect(route('landlord.plotlocation.create'));
         } else if (count($plots) > 1) {
@@ -37,7 +39,7 @@ class PlotSessionController extends BaseController
         }
     }
 
-    public function store(Request $rquest)
+    public function store(Request $request)
     {
         # code...
 
@@ -46,24 +48,24 @@ class PlotSessionController extends BaseController
                 'user_id' => $this->user()->id,
             ],
             [
-                'plot_location_id' => $rquest->plot
+                'plot_location_id' => $request->plot
             ]
         );
 
         return redirect(route('landlord.home'));
-
     }
 
     public function show()
     {
         # code...
-
+        $this->middleware('plotregister');
+        $this->middleware('plotsession');
         $sessionplot = $this->user()->sessionPlot()->first();
 
-        if (!$sessionplot)
-            return false;
         $id = $sessionplot->plot_location_id;
-        $plot = PlotLocation::where('id', $id)->first();
+        $plot = PlotLocation::where('id', $id)
+            ->with('plot_locationable')
+            ->first();
         return $plot;
     }
 }

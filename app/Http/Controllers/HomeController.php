@@ -24,7 +24,6 @@ class HomeController extends BaseController
      */
     public function index()
     {
-
         if ($this->user()->role == 1) {
             //tenants account
             $tenants = $this->user()->tenant()
@@ -33,19 +32,15 @@ class HomeController extends BaseController
             return view('users.home', compact('homedata'));
         } else if ($this->user()->role == 2) {
             return redirect(route('session.plotlocation.index'));
-
         }
     }
 
     public function landlord()
     {
         # code...
-
-        if ($this->plotsession()){
+        if ($this->plotsession()) {
             $plotSession = $this->plotsession();
-        return view("landlord.home", compact('plotSession'));
-    }else{
-        return redirect(route('session.plotlocation.index'))->with('error',"Select the plot first");
-    }
+            return view("landlord.home", compact('plotSession'));
+        }
     }
 }

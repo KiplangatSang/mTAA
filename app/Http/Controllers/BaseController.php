@@ -121,9 +121,8 @@ class BaseController extends Controller
     {
         $sessioncontroller = new PlotSessionController();
         $plot =  $sessioncontroller->show();
-
         if (!$plot)
-            return false;
+         return redirect(route('session.plotlocation.index'));
 
         return $plot;
     }

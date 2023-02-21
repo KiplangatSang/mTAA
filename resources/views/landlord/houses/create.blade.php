@@ -15,13 +15,14 @@
             </div>
         </div>
         <!--copy item table-->
+        @if (count($housedata['houses']) > 0)
+        @if (!session('house'))
         <div class="col col-md col-xl mt-5">
             <h3>Click on a row to copy it to the form.</h3>
             <br>
             <div class="row">
                 <div class="col">
                     <div class="tile row">
-                        @if (count($housedata['houses']) > 0)
                         <div class="col-md col-xl">
                             <div class="tile-body">
                                 <div class="table-responsive">
@@ -72,191 +73,200 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
                     </div>
                 </div>
             </div>
             <!--scripts-->
         </div>
+        @endif
+        @endif
         <!--form section -->
         <div class="col col-md col-xl">
-            <form class="form-horizontal" id="regForm" action="{{ route('landlord.houses.store') }}" method="POST" enctype="application/x-www-form-urlencoded">
-                @csrf
+            <div class="tab">
+                <form class="form-horizontal" id="regForm" action="{{ route('landlord.houses.store') }}" method="POST" enctype="application/x-www-form-urlencoded">
+                    @csrf
 
-                <!-- One "tab" for each step in the form: -->
-                <!--  "tab" One -->
-                <div class="item">
-                    <div class="">
-                        <label class="control-label">What is the price of the rental unit?</label>
-                        <div>
-                            <input class="form-control  @error('price') is-invalid @enderror" type="text" placeholder="Enter the price of your rental unit" name="price" value="{{ old('price') }}" autocomplete="price" id="price" required>
-                            @error('price')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <br>
-                    </div>
-
-                    <!--image selection-->
-                    <div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3">Click to select item image of your rental unit</label>
-                            <div class="col-md-8">
-                                <input class="form-control  @error('image') is-invalid @enderror" id="image" name="image" type="file" placeholder="Enter item image">
-
-                                @error('image')
+                    <!-- One "tab" for each step in the form: -->
+                    <!--  "tab" One -->
+                    <div class="item">
+                        <div class="">
+                            <label class="control-label">What is the price of the rental unit?</label>
+                            <div>
+                                <input class="form-control  @error('price') is-invalid @enderror" type="number" placeholder="Enter the price of your rental unit" name="price" value="{{ old('price') }}" autocomplete="price" id="price" required>
+                                @error('price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div>
+                            <br>
+                        </div>
+
+                        <!--image selection-->
+                        <div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3">Click to select item image of your rental unit</label>
+                                <div class="col-md-8">
+                                    <input class="form-control  @error('image') is-invalid @enderror" id="image" name="image" type="file" placeholder="Enter item image">
+
+                                    @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
+                                </div>
 
                             </div>
+                            @if (count($housedata['houses']) > 0)
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3" id="selecttoreuselabel"></label>
+                                <div>
+                                    <div class="col-md-6" id="selectedimage">
+                                        <!-- <img src="{{ old('imageUrl') }}" alt="image" id="profileSrc" class="w-50">-->
 
+                                    </div>
+                                    <div id="selectedcheckbox">
+                                        <input class="@error('image') is-invalid @enderror" id="houseImageid" name="imageUrl" type="checkbox" value="{{ old('imageUrl') }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                         </div>
-                        @if (count($housedata['houses']) > 0)
-                        <div class="form-group row ">
-                            <label class="control-label col-md-3" id="selecttoreuselabel"></label>
+
+                        <div class=" ">
+                            <h3 class="control-label">Which type is it? </h3>
+                            <p>Click on input field to select the type of rentals the plot has.</p>
                             <div>
-                                <div class="col-md-6" id="selectedimage">
-                                   <!-- <img src="{{ old('imageUrl') }}" alt="image" id="profileSrc" class="w-50">-->
-
-                                </div>
-                                <div id="selectedcheckbox">
-                                    <input class="@error('image') is-invalid @enderror" id="houseImageid" name="imageUrl" type="checkbox" value="{{ old('imageUrl') }}" disabled>
-                                </div>
+                                <select class="form-control " type="text" name="type" style="width: 100%;" id="type">
+                                    <optgroup class="form-control" label="Select the rental types available">
+                                        @foreach ($landlorddata['rental_types'] as $key => $value)
+                                        <option class="form-control" value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                                @error('type')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <br>
+                        </div>
+                        <div class="">
+                            <label class="control-label">At what floor is it located i.e. 3rd floor, ground floor?</label>
+                            <div>
+                                <input class="form-control  @error('floor') is-invalid @enderror" type="number" placeholder="Enter the floor of your rental unit" name="floor" value="{{ old('floor') }}" autocomplete="floor" id="floor" required>
+                                @error('floor')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <br>
+                        </div>
+                        <div class="">
+                            <label class="control-label">What is the size i.e.Small, Large, Extra Large?</label>
+                            <div>
+                                <select class="form-control " type="text" name="size" style="width: 100%;" id="size">
+                                    <optgroup class="form-control" label="Select the rental space size">
+                                        <option class="form-control" value="Small">Small</option>
+                                        <option class="form-control" value="Medium">Medium</option>
+                                        <option class="form-control" value="Large">Large</option>
+                                        <option class="form-control" value="Extra Large">Extra Large</option>
+                                    </optgroup>
+                                </select>
+                                @error('house_types')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            <br>
+                        </div>
+                        <div class="">
+                            <div>
+                                <h3 class="text-display-4">Enter a short house description (Optional)</h3>
+                            </div>
+                            <div class="p-2 m-2">
+                                <textarea name="description" id="description" cols="30" class="form-control" placeholder="Enter a short house description" id="description"></textarea>
                             </div>
                         </div>
-                        @endif
-                    </div>
+                        <div class="row mx-auto">
+                            <div class="col d-flex justify-content-center"><a type="cancel" class="btn btn-danger">Cancel</a></div>
+                            <div class="col"> <button type="submit" class="btn btn-success">Submit</button></div>
 
 
-                    <div class=" ">
-                        <h3 class="control-label">Which type is it? </h3>
-                        <p>Click on input field to select the type of rentals the plot has.</p>
-                        <div>
-                            <select class="form-control " type="text" name="type" style="width: 100%;" id="type">
-                                <optgroup class="form-control" label="Select the rental types available">
-                                    @foreach ($landlorddata['rental_types'] as $key => $value)
-                                    <option class="form-control" value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-                                </optgroup>
-                            </select>
-                            @error('type')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                        </div>
+                    </div>
+                    <!-- Circles which indicates the steps of the form: -->
+                    <div style="text-align:center;margin-top:40px;">
+                        <span class="step"></span>
+                    </div>
+                </form>
+            </div>
+            <!--Pictures of the house-->
+            <div class="tab">
+                <div class="col-md-8 col-xl-7 form-horizontal mx-auto" id="regForm">
+                    <h1>Pictures of the house</h1>
+                    <div class="col-md col-xl">
+                        <div class="mx-3">
+                            <div class="tile-title-w-btn">
+                                <h4 class="title">Inside area pictures of the house</h4>
+                            </div>
+                            <div class="tile-body">
+                                <p></p>
+                                <h4>Click or drop</h4>
+                                <form class="text-center dropzone" method="POST" enctype="multipart/form-data" action="{{ route('houses.images.inside.store') }}" name="Other Documents">
+                                    @csrf
+                                    <input type="text" name="class" value="inside" class="d-none">
+                                    <input type="text" name="house" value="" class="d-none" id="inside-house-id">
+                                    <div class="dz-message">Drop files here or click to
+                                        upload<br><small class="text-info">().</small>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <br>
-                    </div>
-                    <div class="">
-                        <label class="control-label">At what floor is it located i.e. 3rd floor, ground floor?</label>
-                        <div>
-                            <input class="form-control  @error('floor') is-invalid @enderror" type="text" placeholder="Enter the floor of your rental unit" name="floor" value="{{ old('floor') }}" autocomplete="floor" id="floor" required>
-                            @error('floor')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <br>
-                    </div>
-                    <div class="">
-                        <label class="control-label">What is the size i.e.Small, Large, Extra Large?</label>
-                        <div>
-                            <select class="form-control " type="text" name="size" style="width: 100%;" id="size">
-                                <optgroup class="form-control" label="Select the rental space size">
-                                    <option class="form-control" value="Small">Small</option>
-                                    <option class="form-control" value="Medium">Medium</option>
-                                    <option class="form-control" value="Large">Large</option>
-                                    <option class="form-control" value="Extra Large">Extra Large</option>
-                                </optgroup>
-                            </select>
-                            @error('house_types')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <br>
-                    </div>
-                    <div class="">
-                        <div>
-                            <h3 class="text-display-4">Enter a short house description (Optional)</h3>
-                        </div>
-                        <div class="p-2 m-2">
-                            <textarea name="description" id="description" cols="30" class="form-control" placeholder="Enter a short house description" id="description"></textarea>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="col-md-8 col-xl-7 form-horizontal mx-auto" id="regForm">
-                            <h1>Pictures of the house</h1>
-                            <div class="col-md col-xl">
-                                <div class="mx-3 d-none">
-                                    <div class="tile-title-w-btn">
-                                        <h4 class="title">Upload outside area pictures</h4>
+                        <hr>
+                        <div class="mx-3">
+                            <div class="tile-title-w-btn">
+                                <h4 class="title">Upload outside area pictures of the house</h4>
+                            </div>
+                            <div class="tile-body">
+                                <p></p>
+                                <h4>Click or drop</h4>
+                                <form class="text-center dropzone" method="POST" enctype="multipart/form-data" action="{{ route('houses.images.outside.store') }}" name="Other Documents">
+                                    @csrf
+                                    <input type="text" name="class" value="outside" class="d-none">
+                                    <input type="text" name="house" value="" class="d-none" id="outside-house-id">
+                                    <div class="dz-message">Drop files here or click to
+                                        upload<br><small class="text-info">()</small>
                                     </div>
-                                    <div class="tile-body">
-                                        <p></p>
-                                        <h4>Click or drop</h4>
-                                        <form class="text-center dropzone" method="POST" enctype="multipart/form-data" action="/client/userprofile/profile/relevant-documents/all" name="Other Documents">
-                                            @csrf
-
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="mx-3">
-                                    <div class="tile-title-w-btn">
-                                        <h4 class="title">Inside area pictures of the house</h4>
-                                    </div>
-                                    <div class="tile-body">
-                                        <p></p>
-                                        <h4>Click or drop</h4>
-                                        <form class="text-center dropzone" method="POST" enctype="multipart/form-data" action="{{ route('houses.images.upload.inside') }}" name="Other Documents">
-                                            @csrf
-                                            <div class="dz-message">Drop files here or click to
-                                                upload<br><small class="text-info">Just drop the picture here.</small>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <br>
-                                <hr>
-                                <div class="mx-3">
-                                    <div class="tile-title-w-btn">
-                                        <h4 class="title">Upload outside area pictures of the house</h4>
-                                    </div>
-                                    <div class="tile-body">
-                                        <p></p>
-                                        <h4>Click or drop</h4>
-                                        <form class="text-center dropzone" method="POST" enctype="multipart/form-data" action="{{ route('houses.images.upload.inside') }}" name="Other Documents">
-                                            @csrf
-                                            <div class="dz-message">Drop files here or click to
-                                                upload<br><small class="text-info">Just drop the picture here.</small>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="row mx-auto">
-                        <div class="col d-flex justify-content-center"><a type="cancel" class="btn btn-danger">Cancel</a></div>
-                        <div class="col"> <button type="submit" class="btn btn-success">Submit</button></div>
-
-
-                    </div>
                 </div>
-                <!-- Circles which indicates the steps of the form: -->
-                <div style="text-align:center;margin-top:40px;">
-                    <span class="step"></span>
-                </div>
+            </div>
+        </div>
+        <div class="d-none">
+            <form class="form-horizontal" id="closeform" action="{{ route('landlord.houses.store') }}" method="POST" enctype="application/x-www-form-urlencoded">
+                @csrf
+                <input type="text" class="form-control" name="action" value="close">
             </form>
         </div>
-
-
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-success">Next</button>
+            </div>
+        </div>
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
     </div>
 
 </section>
@@ -280,7 +290,78 @@
 
 </script>
 
+<!--tab actions-->
 <script>
+    function disableEmpInput() {
+        var inputEmp = document.getElementById("inputEmp");
+        inputEmp.disabled = true;
+    }
+
+    function enableEmpInput() {
+        var inputEmp = document.getElementById("inputEmp");
+        inputEmp.disabled = false;
+    }
+
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+        // This function will display the specified tab of the form...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        //... and fix the Previous/Next buttons:
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        //... and run a function that will display the correct step indicator:
+        fixStepIndicator(n)
+    }
+
+    if (@json(session('house'))) {
+        var house = @json(session('house'));
+        var id = house.id;
+        $('#outside-house-id').val(id);
+        $('#inside-house-id').val(id);
+        nextPrev(1)
+    }
+
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // check if the form had already been submitted:
+        if (!@json(session('house'))) {
+            // Exit the function if any field in the current tab is invalid:
+            if (n == 1 && !validateForm()) return false;
+        }
+
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form...
+        if (currentTab >= x.length) {
+            // ... the form gets submitted:
+
+            document.getElementById("regForm").submit();
+            if (document.getElementById("nextBtn").innerHTML == "Submit") {
+                document.getElementById("closeform").submit();
+
+            }
+            return false;
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+    }
+
     function validateForm() {
         var x, y, i, z, valid = true;
         x = document.getElementsByClassName("tab");
@@ -344,14 +425,14 @@
         , type
         , size
         , floor, description, image) {
-            $('#selectedimage').empty();
+        $('#selectedimage').empty();
         $('#selectedimage').append(
             $('<img>', {
-            id: 'profileSrc'
-            , src: @json(old('imageUrl'))
-            , alt: 'image'
-            , class: 'd-flex w-100'
-        }));
+                id: 'profileSrc'
+                , src: @json(old('imageUrl'))
+                , alt: 'image'
+                , class: 'd-flex w-100'
+            }));
 
         var priceid = document.getElementById("price");
         var typeid = document.getElementById("type");
@@ -385,39 +466,5 @@
     window.onload = checkBox;
 
 </script>
-<script>
-    function getBluetooth() {
-        navigator.bluetooth.requestDevice({
-                acceptAllDevices: true
-                , optionalServices: ['battery_service'] // Required to access service later.
-            })
-            .then(device => {
-                /* … */
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
 
-    function getBluetooth1() {
-        navigator.bluetooth.requestDevice({
-                filters: [{
-                    services: ['health_thermometer']
-                }]
-            })
-            .then(device => device.gatt.connect())
-            .then(server => server.getPrimaryService('health_thermometer'))
-            .then(service => service.getCharacteristic('measurement_interval'))
-            .then(characteristic => characteristic.getDescriptor('gatt.characteristic_user_description'))
-            .then(descriptor => descriptor.readValue())
-            .then(value => {
-                const decoder = new TextDecoder('utf-8');
-                console.log(`User Description: ${decoder.decode(value)}`);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-
-</script>
 @endsection

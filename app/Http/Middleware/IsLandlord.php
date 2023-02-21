@@ -18,10 +18,10 @@ class IsLandlord
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user() &&  Auth::user()->is_landlord == 1) {
+        if (Auth::user() &&  Auth::user()->role == 2) {
             return $next($request);
        }
 
-       return redirect('home')->with('error','You have not admin access');
+       return redirect(route('welcome'))->with('error','You are not registered as a landlord');
     }
 }

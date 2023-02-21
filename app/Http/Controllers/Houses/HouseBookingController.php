@@ -30,7 +30,7 @@ class HouseBookingController extends BaseController
         # code...
         $house = Houses::where('id', $id)
             ->with('plotLocation.landlord.caretaker')
-            ->with('housable')
+            ->with('houseable')
             ->with('caretaker')
             ->first();
         $housedata['house'] = $house;
