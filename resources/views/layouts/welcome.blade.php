@@ -47,7 +47,7 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body >
+<body>
 
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -56,8 +56,8 @@
         </div>
     </div>
     <!-- Spinner End -->
-    <div class="bg-light">
-        <nav class="navbar navbar-expand-md navbar-inverse shadow-sm sticky-top navbar-secondary p-2">
+    <div>
+        <nav class="navbar navbar-expand-md navbar-inverse shadow-sm sticky-top navbar-light p-2">
             <div class="container-fluid ">
                 <a class="navbar-brand d-flex" href="{{ url('/home') }}">
                     <div class="p-2"><img src="https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png" style="height:35px;border-right:1px solid #000 " class="pr-3"></div>
