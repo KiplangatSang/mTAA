@@ -30,11 +30,9 @@ class HomeController extends BaseController
                 ->with('houses')->first();
             $homedata['houses'] = $tenants->houses;
             return view('users.home', compact('homedata'));
+        } else if ($this->user()->role == 2) {
+            return redirect((route('landlord.home')));
         }
-
-        // else if ($this->user()->role == 2) {
-        //     return redirect(route('session.plotlocation.index'));
-        // }
     }
 
     public function landlord()
