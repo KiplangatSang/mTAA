@@ -57,7 +57,7 @@
     </div>
     <!-- Spinner End -->
     <div>
-        <nav class="navbar navbar-expand-md navbar-inverse shadow-sm sticky-top p-2">
+        <nav class="navbar navbar-expand-md navbar-inverse shadow-sm sticky-top navbar-secondary p-2">
             <div class="container-fluid ">
                 <a class="navbar-brand d-flex" href="{{ url('/home') }}">
                     <div class="p-2"><img src="https://storage.googleapis.com/dukaverse-e4f47.appspot.com/app/noprofile.png" style="height:35px;border-right:1px solid #000 " class="pr-3"></div>
