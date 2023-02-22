@@ -25,6 +25,6 @@ class PlotRegister
                 return $next($request);
             }
         }
-        return redirect(route(route('landlord.plotlocation.create')))->with('error', 'You have not registered any plot');
+        return redirect(route(route('landlord.plotlocation.create')))->with('info', 'You have not registered any plot');
     }
 }
