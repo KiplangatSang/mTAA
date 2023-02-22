@@ -22,11 +22,26 @@ use App\Repositories\StockRepository;
 use App\Repositories\SuppliesRepository;
 use App\Retails\SessionRetail;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Stevebauman\Location\Facades\Location;
 
 class AppRepository
 {
+    public function user()
+    {
+        # code...
+        $id = Auth::id();
+        $user = User::where('id', $id)->first();
+        return $user;
+    }
+
+    public function landlord()
+    {
+        # code...
+        $landlord = $this->user()->landlord()->first();
+        return $landlord;
+    }
     //get ip address
     public function getIp()
     {
@@ -78,14 +93,19 @@ class AppRepository
         # code...
         $dates = null;
         $availableHouseCategories = null;
-        try {
-            $dates = Houses::select(DB::raw('YEAR(created_at) year, MONTH(created_at) month, MONTHNAME(created_at) month_name'))
-                ->distinct()
-                ->orderBy('year', 'asc')
-                ->orderBy('month', 'asc')
-                ->get();
 
-            $availableHouseCategories = Houses::get('type')->unique('type');
+        $dates = Houses::select(DB::raw('YEAR(created_at) year, MONTH(created_at) month, MONTHNAME(created_at) month_name'))
+            ->distinct()
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
+
+        try {
+            if (Auth::user() && Auth::user()->role == 2) {
+                $availableHouseCategories = $this->landlord()->houses()->get('type')->unique('type');
+            } else {
+                $availableHouseCategories = Houses::get('type')->unique('type');
+            }
         } catch (Exception $e) {
             $e->getMessage();
         }

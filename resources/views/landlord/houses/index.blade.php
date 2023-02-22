@@ -50,8 +50,8 @@
                                                     <div class="col-12 text-center mb-2">
                                                         <ul class="list-inline mb-4" id="portfolio-flters">
                                                             <li class="btn btn-secondary m-1 active" data-filter=".{{ $house->house_id.$house->id }}">All</li>
-                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id.$house->id.'inside' }}">Inside </li>
-                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id.$house->id.'outside' }}">Outside</li>
+                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id.$house->id.'insideimages' }}">Inside </li>
+                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id.$house->id.'outsideimages' }}">Outside</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -77,9 +77,9 @@
                                     </section>
                                     <!-- Images End -->
                                 </div>
-                                <div class="col mt-2">
-                                    <a href="{{ route('landlord.houses.delete',['id'=>$house->id]) }}" class="btn btn-outline-danger float-left" type="button"><Strong>Delete</Strong></a>
-                                    <a href="{{ route('landlord.houses.show',['id'=>$house->id]) }}" class="btn btn-outline-success float-right" type="button"><Strong>View</Strong></a>
+                                <div class="row mt-2">
+                                    <a href="{{ route('landlord.houses.delete',['id'=>$house->id]) }}" class="btn btn-outline-danger float-left m-1" type="button"><Strong>Delete</Strong></a>
+                                    <a href="{{ route('landlord.houses.show',['id'=>$house->id]) }}" class="btn btn-outline-success float-right m-1" type="button"><Strong>View</Strong></a>
                                 </div>
                             </div>
                         </div>

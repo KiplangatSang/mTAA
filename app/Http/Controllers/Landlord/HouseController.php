@@ -52,10 +52,11 @@ class HouseController extends BaseController
     public function store(Request $request)
     {
 
-        if ($request->has('action') && $request->action == "close")
+        if ($request->has('action') && $request->action == "close"){
+            request()->session()->remove('house');
             return redirect(route('landlord.houses'))->with('success', "The house has been added successfully");
 
-
+}
         $str_length = $this->str_length;;
         $house_id =  Str::random($str_length);
         $request['house_id'] = $house_id;

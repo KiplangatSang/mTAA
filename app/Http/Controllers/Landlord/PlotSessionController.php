@@ -27,11 +27,11 @@ class PlotSessionController extends BaseController
 
         $sessiondata['plots'] = $plots;
         if (count($plots) == 1) {
-          $request = new Request();
-          $request['plot'] =  $plots->first()->id;
+            $request = new Request();
+            $request['plot'] =  $plots->first()->id;
             $this->store($request);
 
-           return redirect(route('landlord.home'));
+            return redirect(route('landlord.home'));
         } else if (count($plots) < 1) {
             return redirect(route('landlord.plotlocation.create'));
         } else if (count($plots) > 1) {

@@ -133,8 +133,8 @@
                                                     <div class="col-12 text-center mb-2">
                                                         <ul class="list-inline mb-4" id="portfolio-flters">
                                                             <li class="btn btn-secondary m-1 active" data-filter=".{{ $house->house_id.$house->id }}">All</li>
-                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id.$house->id.'inside' }}">Inside </li>
-                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id.$house->id.'outside' }}">Outside</li>
+                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id.$house->id.'insideimages' }}">Inside </li>
+                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id.$house->id.'outsideimages' }}">Outside</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -142,6 +142,7 @@
                                                     <!--images-->
                                                     @if($house->pictures)
                                                     @foreach ((array)json_decode($house->pictures) as $key=>$image)
+                                                    <h3>{{ $key }}</h3>
                                                     <div class="col-md-6 mb-4 portfolio-item {{ $house->house_id.$house->id }} {{ $house->house_id.$house->id.$key }}">
                                                         <div class="position-relative overflow-hidden mb-2">
                                                             <img class="img-fluid w-100" src="{{ $image }}" alt="">

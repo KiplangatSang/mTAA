@@ -22,10 +22,12 @@ class HouseBookingController extends Controller
         $house = Houses::where('id', $id)
             ->whereHas('booked')
             ->with('plotLocation')
-            ->with('housable')
+            ->with('houseable')
             ->with('caretaker')
             ->with('booked.bookable.tenant')
             ->first();
+        if (!$house)
+            return back()->with('error', 'This house has no recent bookings');
         $housedata['house'] = $house;
         return view('landlord.houses.booking.show', compact('housedata'));
     }
