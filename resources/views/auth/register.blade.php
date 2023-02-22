@@ -116,7 +116,7 @@
 																				<div class="row">
 																								<div class="col-xl-2 col-md-6 col-sm-4">
 																												<label class="form-label" for="phoneCode ">Phone Code</label>
-																												<input type="code" class="form-control form-control-lg  " name="phone_code"
+																												<input type="code" class="form-control form-control-lg  phonecode" name="phone_code"
 																																value="+{{ $region['phoneCode'] ?? '254' }}" required autocomplete="phoneCode"
 																																id="user-phonecode" disabled />
 																								</div>
