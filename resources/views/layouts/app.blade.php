@@ -40,14 +40,15 @@
 				<!-- Font-icon css-->
 				<link rel="stylesheet" type="text/css"
 								href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+                                <!-- jscroll-->
+                                <script src="//unpkg.com/jscroll@#.#.#/dist/jquery.jscroll.min.js"></script>
 
 </head>
 
 <body class="app sidebar-mini">
 				<!-- Navbar-->
 				<header class="app-header">
-								<a class="app-header__logo" href="/home">{{ $plotSession->name ?? config('app.name') }} </a>
+								<a class="app-header__logo" href="/home">{{session('plotSession')->name ?? config('app.name') }} </a>
 								<!-- Sidebar toggle button-->
 								<a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
 
@@ -191,7 +192,7 @@
 																								class="app-menu__icon fa fa-home"></i><span class="app-menu__label">Caretakers</span><i
 																								class="treeview-indicator fa fa-angle-right"></i></a>
 																<ul class="treeview-menu">
-																				<li><a class="treeview-item " href="{{ route('landlord.caretakers') }}"><i
+																				<li><a class="treeview-item " href="{{ route('landlord.caretakers.index') }}"><i
 																																class="icon fa fa-circle-o"></i>Caretakers List
 																												Owner</a></li>
 																				<li><a class="treeview-item " href="{{ route('landlord.caretakers.create') }}"><i
@@ -214,7 +215,7 @@
 																								class="app-menu__icon fa fa-home"></i><span class="app-menu__label">Payments</span><i
 																								class="treeview-indicator fa fa-angle-right"></i></a>
 																<ul class="treeview-menu">
-																				<li><a class="treeview-item " href="/client/retails/retailowner/show"><i
+																				<li><a class="treeview-item " href="{{ route('landlord.payments.index') }}"><i
 																																class="icon fa fa-circle-o"></i>History</a></li>
 																				<li><a class="treeview-item " href="/client/retails/show"><i
 																																class="icon fa fa-circle-o"></i>Refund

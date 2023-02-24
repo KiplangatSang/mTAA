@@ -24,6 +24,10 @@ class HouseController extends BaseController
     {
         //
         $houses = $this->plotsession()->houses()->get();
+        // $pictures =$houses->first()->pictures;
+        // $pictures =(array)json_decode($pictures);
+        // dd( $pictures['insideimages']);
+
         $housedata['houses'] = $houses;
         return view('landlord.houses.index', compact('housedata'));
     }
@@ -110,6 +114,7 @@ class HouseController extends BaseController
         //
         $house = $this->plotsession()->houses()->where('id', $id)->first();
         $housedata['house'] = $house;
+        // dd($housedata['house']);
         return view('landlord.houses.show', compact('housedata'));
     }
 

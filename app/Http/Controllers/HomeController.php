@@ -40,6 +40,7 @@ class HomeController extends BaseController
         # code...
         if ($this->plotsession()) {
             $plotSession = $this->plotsession();
+            session()->put('plotSession',$plotSession);
             return view("landlord.home", compact('plotSession'));
         }
     }

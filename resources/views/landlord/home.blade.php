@@ -12,7 +12,7 @@
         <a href="{{ route('landlord.houses.booked.index') }}" id=""><span class=" badge badge-success p-2 m-2">
                 House Bookings
             </span></a>
-        <a href="{{route('landlord.caretakers') }}"> <span class=" badge badge-warning p-2 m-2">
+        <a href="{{route('landlord.caretakers.index') }}"> <span class=" badge badge-warning p-2 m-2">
                 Caretakers
             </span></a>
         <a href="{{ route('landlord.tenants') }}"><span class=" badge badge-info p-2 m-2">

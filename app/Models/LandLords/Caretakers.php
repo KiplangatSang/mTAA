@@ -2,6 +2,7 @@
 
 namespace App\Models\Landlords;
 
+use App\Models\CaretakerRoles;
 use App\Models\LandLords\LandLords;
 use App\Models\Plots\Houses;
 use App\Models\Plots\PlotLocation;
@@ -26,7 +27,7 @@ class Caretakers extends Model
     public function tenants()
     {
         # code...
-       return $this->hasMany(Tenants::class,'caretakers_tenant');
+       return $this->belongsToMany(Tenants::class,'caretakers_tenant');
     }
 
     public function landlord()
@@ -57,5 +58,17 @@ class Caretakers extends Model
     {
         # code...
         return $this->hasOne(Profile::class,'caretaker_id');
+    }
+
+    public function user()
+    {
+        # code...
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function roles()
+    {
+        # code...
+        return $this->belongsTo(CaretakerRoles::class,'role');
     }
 }

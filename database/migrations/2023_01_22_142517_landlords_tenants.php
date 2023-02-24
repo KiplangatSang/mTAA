@@ -17,7 +17,7 @@ class LandlordsTenants extends Migration
         //
         Schema::create('landlords_tenants', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('landlords_id');
+            $table->bigInteger('land_lords_id');
             $table->bigInteger('tenants_id');
             $table->timestamps();
         });

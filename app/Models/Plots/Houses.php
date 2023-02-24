@@ -39,10 +39,10 @@ class Houses extends Model
         return $this->belongsTo(Tenants::class, 'tenant_id');
     }
 
-    public function payment()
+    public function payments()
     {
         # code...
-        return $this->hasOne(Payment::class, 'house_id');
+        return $this->hasMany(Payment::class, 'house_id');
     }
 
     public function booked()

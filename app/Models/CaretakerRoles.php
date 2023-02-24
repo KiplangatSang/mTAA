@@ -6,27 +6,22 @@ use App\Models\Landlords\Caretakers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class CaretakerRoles extends Model
 {
     use HasFactory;
 
     protected $guarded =[];
 
-    public function profileable()
+    public function roleable()
     {
         # code...
         return $this->morphTo();
     }
 
-    public function caretaker()
+    public function caretakers()
     {
         # code...
-        return $this->belongsTo(Caretakers::class,'caretaker_id');
+        $this->hasMany(Caretakers::class,'role');
     }
 
-    public function landlord()
-    {
-        # code...
-        return $this->belongsTo(Caretakers::class,'landlord_id');
-    }
 }

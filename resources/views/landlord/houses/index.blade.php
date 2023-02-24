@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section("content")
+@section('content')
 <div class="container-fluid">
     <!-- search box nav-->
     <div class="col-md-6 col-xl mx-auto">
@@ -17,10 +17,10 @@
         <div class="row ">
             <!--categories  section -->
             <div class="col-md-6 col-xl-3 m-2">
-                @foreach ($data['availableHouseCategories'] as $key=>$category)
+                @foreach ($data['availableHouseCategories'] as $key => $category)
                 <div class="row">
                     <a class="text-dark" onclick="sendform('category'+ @json($key))" id="category{{ $key }}">
-                        {{ $category->type}}
+                        {{ $category->type }}
                     </a>
                 </div>
                 <hr class="new-1">
@@ -49,26 +49,31 @@
                                                 <div class="row">
                                                     <div class="col-12 text-center mb-2">
                                                         <ul class="list-inline mb-4" id="portfolio-flters">
-                                                            <li class="btn btn-secondary m-1 active" data-filter=".{{ $house->house_id.$house->id }}">All</li>
-                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id.$house->id.'insideimages' }}">Inside </li>
-                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id.$house->id.'outsideimages' }}">Outside</li>
+                                                            <li class="btn btn-secondary m-1 active" data-filter=".{{ $house->house_id . $house->id }}">All
+                                                            </li>
+                                                            <li class="btn btn-secondary m-1 " data-filter=".{{ $house->house_id . $house->id . 'insideimages' }}">
+                                                                Inside </li>
+                                                            <li class="btn btn-secondary m-1" data-filter=".{{ $house->house_id . $house->id . 'outsideimages' }}">
+                                                                Outside</li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="row portfolio-container">
                                                     <!--images-->
-                                                    @if($house->pictures)
-                                                    @foreach ((array)json_decode($house->pictures) as $key=>$image)
-                                                    <div class="col-md-6 mb-4 portfolio-item {{ $house->house_id.$house->id }} {{ $house->house_id.$house->id.$key }}">
+                                                    @if ($house->pictures)
+                                                    @foreach ((array) json_decode($house->pictures) as $key => $images)
+                                                    @foreach ((array) $images as $image)
+                                                    <div class="col-md-6 mb-4 portfolio-item {{ $house->house_id . $house->id }} {{ $house->house_id . $house->id . $key }}">
                                                         <div class="position-relative overflow-hidden mb-2">
                                                             <img class="img-fluid w-100" src="{{ $image }}" alt="">
                                                             <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                                <a href="{{$image}}" data-lightbox="portfolio{{ $house->id }}">
+                                                                <a href="{{ $image }}" data-lightbox="portfolio{{ $house->id }}">
                                                                     <i class="bi bi-plus text-light"></i>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @endforeach
                                                     @endforeach
                                                     @endif
                                                 </div>
@@ -78,49 +83,50 @@
                                     <!-- Images End -->
                                 </div>
                                 <div class="row mt-2">
-                                    <a href="{{ route('landlord.houses.delete',['id'=>$house->id]) }}" class="btn btn-outline-danger float-left m-1" type="button"><Strong>Delete</Strong></a>
-                                    <a href="{{ route('landlord.houses.show',['id'=>$house->id]) }}" class="btn btn-outline-success float-right m-1" type="button"><Strong>View</Strong></a>
+                                    <a href="{{ route('landlord.houses.delete', ['id' => $house->id]) }}" class="btn btn-outline-danger float-left m-1" type="button"><Strong>Delete</Strong></a>
+                                    <a href="{{ route('landlord.houses.show', ['id' => $house->id]) }}" class="btn btn-outline-success float-right m-1" type="button"><Strong>View</Strong></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
-                {{--  <div class="row mx-auto m-1 p-2">
+                {{-- <div class="row mx-auto m-1 p-2">
                     {{ $homedata['houses']->links() }}
-                </div>  --}}
-            </div>
+            </div> --}}
         </div>
     </div>
-    <script>
-        $("#searchbox").keyup(function() {
-            let txt = this.value;
-            searchfilter(txt)
+</div>
+<script>
+    $("#searchbox").keyup(function() {
+        let txt = this.value;
+        searchfilter(txt)
+    });
+
+    $("#search_button").click(function() {
+        let txt = $("#searchbox").value;
+        searchfilter(txt)
+    });
+
+    function searchfilter(txt) {
+        $(".house").hide();
+        $(".house").each(function() {
+            console.log($(this).text().toUpperCase().indexOf(txt.toUpperCase()));
+            if ($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
+    }
 
-        $("#search_button").click(function() {
-            let txt = $("#searchbox").value;
-            searchfilter(txt)
-        });
+    function sendform(key) {
 
-        function searchfilter(txt) {
-            $(".house").hide();
-            $(".house").each(function() {
-                console.log($(this).text().toUpperCase().indexOf(txt.toUpperCase()));
-                if ($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-        function sendform(key) {
+        var type = $("#" + key).text();
+        $("#type_input").val(type);
+        document.getElementById('type_form').submit();
+    }
 
-            var type = $("#" + key).text();
-            $("#type_input").val(type);
-            document.getElementById('type_form').submit();
-        }
-
-    </script>
+</script>
 </div>
 @endsection

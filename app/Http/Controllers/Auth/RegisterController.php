@@ -221,11 +221,7 @@ class RegisterController extends BaseController
     public function tenantCreation(User $user)
     {
         # code...
-        $result =  $user->tenant()->create(
-            [
-                'user_id' => $user->id,
-            ]
-        );
+        $result =  $user->tenant()->create();
         return $result;
     }
 

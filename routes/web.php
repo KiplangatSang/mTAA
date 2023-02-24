@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Houses\HouseBookingController;
+use App\Http\Controllers\Landlord\CaretakerController;
 use App\Http\Controllers\Landlord\HouseBookingController as LandlordHouseBookingController;
 use App\Http\Controllers\Landlord\HouseController;
+use App\Http\Controllers\Landlord\PaymentController;
 use App\Http\Controllers\Landlord\PlotLocationController;
 use App\Http\Controllers\Landlord\PlotSessionController;
 use App\Http\Controllers\WelcomeController;
@@ -77,7 +79,7 @@ Route::get('/plots/create', [PlotLocationController::class, 'create'])->name('pl
 //landlords group
 Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
     function () {
-        Route::get('/home', [HomeController::class, 'landlord'])->name('home');
+
         // plot location
         Route::get('/plots/index', [PlotLocationController::class, 'index'])->name('plotlocation');
         Route::get('/plots/create', [PlotLocationController::class, 'create'])->name('plotlocation.create');
@@ -87,6 +89,8 @@ Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
         Route::post('/plots/update/{id}', [PlotLocationController::class, 'update'])->name('plotlocation.update');
 
         Route::middleware(['plotregister', 'plotsession'])->group(function () {
+            //
+            Route::get('/home', [HomeController::class, 'landlord'])->name('home');
             //houses
             Route::get('/houses/index', [HouseController::class, 'index'])->name('houses');
             Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
@@ -102,10 +106,9 @@ Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
             //bookings
             Route::get('/houses/boookings/index', [LandlordHouseBookingController::class, 'index'])->name('houses.booked.index');
             Route::get('/houses/boookings/{id}', [LandlordHouseBookingController::class, 'show'])->name('houses.booked.show');
-            Route::post('/houses/payment/refund/{house_id}', [LandlordHouseBookingController::class, 'refund'])->name('payment.reverse');
             Route::post('/houses/tenant/store/{house_id}/{tenant_id}', [LandlordHouseBookingController::class, 'tenant_accept'])->name('houses.tenant.store');
-            Route::get('/houses/tenant/request_payment/{house_id}/{tenant_id}', [LandlordHouseBookingController::class, 'tenant_requet_payment'])->name('houses.tenant.requet-payment');
-
+            Route::get('/houses/tenant/request_payment/{house_id}/{tenant_id}', [LandlordHouseBookingController::class, 'tenant_requet_payment'])->name('houses.tenant.request-payment');
+            Route::post('/houses/payment/refund/{payment_id}', [LandlordHouseBookingController::class, 'refund'])->name('payment.reverse');
 
 
             Route::get('/houses/types', function () {
@@ -113,12 +116,7 @@ Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
             })->name('houses.types');
 
             //caretakers
-            Route::get('/caretakers/index', function () {
-                return "/landlord/caretakers/index";
-            })->name('caretakers');
-            Route::get('/caretakers/create', function () {
-                return "landlord.caretakers.create";
-            })->name('caretakers.create');
+            Route::resource('caretakers', CaretakerController::class);
 
             //tenants
             Route::get('/tenants/index', function () {
@@ -127,6 +125,10 @@ Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
             Route::get('/tenants/create', function () {
                 return "landlord.tenants.create";
             })->name('tenants.create');
+
+
+            Route::resource('payments', PaymentController::class);
+
         });
     }
 );

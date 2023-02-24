@@ -79,10 +79,16 @@ class User extends Authenticatable
         return $this->morphOne(LandLords::class, "landlordable");
     }
 
+    // public function caretaker()
+    // {
+    //     # code...
+    //     return $this->morphOne(Caretakers::class, "caretakerable");
+    // }
+
     public function caretaker()
     {
         # code...
-        return $this->morphOne(Caretakers::class, "caretakerable");
+        return $this->hasOne(Caretakers::class, "user_id");
     }
 
     public function sessionPlot()
@@ -90,4 +96,6 @@ class User extends Authenticatable
         # code...
         return $this->morphOne(SessionPlot::class,'sessionable');
     }
+
 }
+

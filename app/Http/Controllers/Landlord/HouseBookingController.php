@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 class HouseBookingController extends Controller
 {
     //
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -25,10 +29,12 @@ class HouseBookingController extends Controller
             ->with('houseable')
             ->with('caretaker')
             ->with('booked.bookable.tenant')
+            ->with('payments.payable')
             ->first();
         if (!$house)
             return back()->with('error', 'This house has no recent bookings');
         $housedata['house'] = $house;
+
         return view('landlord.houses.booking.show', compact('housedata'));
     }
 }

@@ -61,7 +61,6 @@ class PlotSessionController extends BaseController
         $this->middleware('plotregister');
         $this->middleware('plotsession');
         $sessionplot = $this->user()->sessionPlot()->first();
-
         $id = $sessionplot->plot_location_id;
         $plot = PlotLocation::where('id', $id)
             ->with('plot_locationable')

@@ -15,6 +15,10 @@ class TenantsFactory extends Factory
     {
         return [
             //
+            "tenantable_id" => 2,
+            "tenantable_type" => "App\Models\User",
+            "account_type" => "DukaVerse",
+            "account" => "DVPLT" . rand(1000, 100000),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models\LandLords;
 
 use App\Models\Landlords\Caretakers;
+use App\Models\Payment;
 use App\Models\Plots\Houses;
 use App\Models\Plots\PlotLocation;
 use App\Models\Profile;
@@ -25,20 +26,13 @@ class LandLords extends Model
     public function tenants()
     {
         # code...
-        return $this->hasMany(Tenants::class,'landlords_tenants');
-    }
-
-
-    public function user()
-    {
-        # code...
-      return  $this->morphOne(User::class,'userable');
+        return $this->belongsToMany(Tenants::class,'landlords_tenants');
     }
 
     public function caretakers()
     {
         # code...
-       return $this->belongsTo(Caretakers::class,'landlord_id');
+       return $this->hasMany(Caretakers::class,'landlord_id');
     }
 
     public function plotlocations()

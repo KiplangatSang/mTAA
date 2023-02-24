@@ -16,16 +16,21 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('payable_id');
-            $table->bigInteger('payable_type');
+            $table->string('payable_type');
             $table->bigInteger('house_id');
             $table->bigInteger('tenant_id')->nullable();
             $table->bigInteger('landlord_id')->nullable();
+            $table->string('gateway');
+            $table->string('confirmation');
             $table->string('sender')->nullable();
             $table->string('receiver')->nullable();
             $table->double('amount');
             $table->string('purpose');
             $table->string('sender_account');
             $table->string('receiver_account');
+            $table->string('reference');
+            $table->boolean('status');
+            $table->boolean('on_hold');
             $table->timestamps();
         });
     }

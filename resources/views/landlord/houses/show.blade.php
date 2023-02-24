@@ -149,17 +149,19 @@
                                     <div class="row portfolio-container">
 
                                         @if($housedata['house']->pictures)
-                                        @foreach ((array)json_decode($housedata['house']->pictures) as $key=>$image)
-                                        <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.$key }}">
-                                            <div class="position-relative overflow-hidden mb-2">
-                                                <img class="img-fluid w-100" src="{{ $image }}" alt="">
-                                                <div class="portfolio-btn d-flex align-items-center justify-content-center">
-                                                    <a href="{{ $image }}" data-lightbox="portfolio{{ $housedata['house']->id }}">
-                                                        <i class="bi bi-plus text-light"></i>
-                                                    </a>
-                                                </div>
+                                        @foreach ((array)json_decode($housedata['house']->pictures) as $key=>$images)
+                                       @foreach ((array)$images as $image)
+                                       <div class="col-md-6 mb-4 portfolio-item {{ $housedata['house']->house_id.$housedata['house']->id }} {{ $housedata['house']->house_id.$housedata['house']->id.$key }}">
+                                        <div class="position-relative overflow-hidden mb-2">
+                                            <img class="img-fluid w-100" src="{{ $image }}" alt="">
+                                            <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                                <a href="{{ $image }}" data-lightbox="portfolio{{ $housedata['house']->id }}">
+                                                    <i class="bi bi-plus text-light"></i>
+                                                </a>
                                             </div>
                                         </div>
+                                    </div>
+                                       @endforeach
                                         @endforeach
                                         @endif
                                     </div>
