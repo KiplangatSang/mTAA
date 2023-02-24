@@ -204,7 +204,7 @@
 																								class="treeview-indicator fa fa-angle-right"></i></a>
 
 																<ul class="treeview-menu">
-																				<li><a class="treeview-item " href="{{ route('landlord.tenants') }}"><i
+																				<li><a class="treeview-item " href="{{ route('landlord.tenants.index') }}"><i
 																																class="icon fa fa-circle-o"></i>Tenants List</a></li>
 																				<li><a class="treeview-item " href="{{ route('landlord.tenants.create') }}"><i
 																																class="icon fa fa-circle-o"></i>Add Tenant</a></li>

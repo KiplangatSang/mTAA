@@ -8,6 +8,7 @@ use App\Http\Controllers\Landlord\HouseController;
 use App\Http\Controllers\Landlord\PaymentController;
 use App\Http\Controllers\Landlord\PlotLocationController;
 use App\Http\Controllers\Landlord\PlotSessionController;
+use App\Http\Controllers\Landlord\TenantController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Plots\Houses;
 use Illuminate\Routing\RouteGroup;
@@ -119,14 +120,9 @@ Route::prefix('/landlord')->name('landlord.')->middleware(['landlord',])->group(
             Route::resource('caretakers', CaretakerController::class);
 
             //tenants
-            Route::get('/tenants/index', function () {
-                return "/landlord/tenants/index";
-            })->name('tenants');
-            Route::get('/tenants/create', function () {
-                return "landlord.tenants.create";
-            })->name('tenants.create');
+            Route::resource('tenants', TenantController::class);
 
-
+            //caretaker
             Route::resource('payments', PaymentController::class);
 
         });
